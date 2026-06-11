@@ -1,0 +1,8 @@
+class Categoria:
+    def __init__(self, id, nome, teto):
+        self.id = id
+        self.nome = nome
+        self.teto = teto
+
+    def __str__(self):
+        return f'{self.id}: {self.nome}, {self.teto}'
