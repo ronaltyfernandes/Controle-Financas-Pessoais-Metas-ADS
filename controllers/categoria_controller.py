@@ -1,5 +1,6 @@
 from services.categoria_service import CategoriaService
 from utils.validaInputs import ler_texto, ler_float, ler_int
+from utils.interface import tabela, erro, sucesso, titulo
 
 
 class CategoriaController:
@@ -7,67 +8,100 @@ class CategoriaController:
         self.categoria_service = CategoriaService()
 
     def adicionar_categoria(self):
+        titulo("CADASTRO DE CATEGORIA")
 
-        nome = ler_texto("Nome da categoria: ").strip().lower()
-        teto = ler_float("Teto de gastos: ")
+        nome = ler_texto(
+            "Nome da categoria: "
+        ).strip().lower()
 
-        sucesso = self.categoria_service.adicionar(nome, teto)
+        teto = ler_float("Teto de gastos: "
+        )
 
-        if sucesso:
-            print("Categoria cadastrada com sucesso!")
+        if self.categoria_service.adicionar(nome, teto):
+            sucesso(
+                f'Categoria "{nome}" cadastrada com sucesso!'
+            )
         else:
-            print("Já existe uma categoria com esse nome.")
+            erro(
+                f'A categoria "{nome}" já existe.'
+        )
 
     def listar(self):
+        titulo("LISTA DE CATEGORIAS")
 
         categorias = self.categoria_service.listar()
 
         if not categorias:
-            print("Nenhuma categoria cadastrada.")
+            erro("Nenhuma categoria cadastrada.")
             return
 
+        linhas = []
+
         for categoria in categorias:
-            print(
-                f"{categoria.id} - "
-                f"{categoria.nome} "
-                f"(Teto: R$ {categoria.teto:.2f})"
-            )
+            linhas.append([
+                categoria.id,
+                categoria.nome,
+                f"R$ {categoria.teto:.2f}"
+            ])
+
+        tabela(
+            ["ID", "Categoria", "Teto"],
+            linhas
+        )
 
     def update(self):
+        titulo("ALTERAR CATEGORIA")
+
         categorias = self.categoria_service.listar()
 
         if not categorias:
-            print("Nenhuma categoria cadastrada.")
+            erro("Nenhuma categoria cadastrada.")
             return
 
         self.listar()
 
-        id_categoria = ler_int("\nDigite o ID da categoria que deseja alterar: ")
-        categoria = self.categoria_service.buscar_por_id(id_categoria)
+        id_categoria = ler_int(
+            "\nDigite o ID da categoria que deseja alterar: "
+        )
+
+        categoria = self.categoria_service.buscar_por_id(
+            id_categoria
+        )
 
         if not categoria:
-            print("Categoria não encontrada.")
+            erro("Categoria não encontrada.")
             return
 
-        nome = ler_texto("Novo nome: ").strip().lower()
-        teto = ler_float("Novo teto: ")
+        nome = ler_texto(
+            "Novo nome: "
+        ).strip().lower()
 
-        sucesso = self.categoria_service.update(
+        teto = ler_float(
+            "Novo teto: "
+        )
+
+        atualizado = self.categoria_service.update(
             id_categoria,
             nome,
             teto
         )
 
-        if sucesso:
-            print("Categoria atualizada com sucesso!")
+        if atualizado:
+            sucesso(
+                f'Categoria "{nome}" atualizada com sucesso!'
+            )
         else:
-            print("Já existe uma categoria com esse nome.")
+            erro(
+                f'A categoria "{nome}" já existe.'
+            )
 
     def remover(self):
+        titulo("REMOVER CATEGORIA")
+
         categorias = self.categoria_service.listar()
 
         if not categorias:
-            print("Nenhuma categoria cadastrada.")
+            erro("Nenhuma categoria cadastrada.")
             return
 
         self.listar()
@@ -81,9 +115,13 @@ class CategoriaController:
         )
 
         if not categoria:
-            print("Categoria não encontrada.")
+            erro("Categoria não encontrada.")
             return
 
-        self.categoria_service.remover(id_categoria)
+        self.categoria_service.remover(
+            id_categoria
+        )
 
-        print("Categoria removida com sucesso!")
+        sucesso(
+            f'Categoria "{categoria.nome}" removida com sucesso!'
+        )

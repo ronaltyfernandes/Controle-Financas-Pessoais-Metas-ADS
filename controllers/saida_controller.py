@@ -7,6 +7,13 @@ from utils.validaInputs import (
     ler_int
 )
 
+from utils.interface import (
+    titulo,
+    sucesso,
+    erro,
+    tabela
+)
+
 
 class SaidaController:
     def __init__(self):
@@ -14,11 +21,13 @@ class SaidaController:
         self.categoria_service = CategoriaService()
 
     def adicionar_saida(self):
+        titulo("CADASTRO DE SAÍDA")
+
         categorias = self.categoria_service.listar()
 
         if not categorias:
-            print("Nenhuma categoria cadastrada.")
-            print("Cadastre uma categoria antes de registrar uma saída.")
+            erro("Nenhuma categoria cadastrada.")
+            erro("Cadastre uma categoria antes de registrar uma saída.")
             return
 
         nome = ler_texto("Nome: ")
@@ -26,14 +35,23 @@ class SaidaController:
         valor = ler_float("Valor: ")
         data = ler_data("Data: ")
 
-        print("\nCategorias disponíveis:")
+        linhas = []
 
         for categoria in categorias:
-            print(f"- {categoria.nome}")
+            linhas.append([
+                categoria.id,
+                categoria.nome
+            ])
+
+        tabela(
+            ["ID", "Categoria"],
+            linhas
+        )
 
         while True:
-
-            nome_categoria = ler_texto("Categoria: ")
+            nome_categoria = ler_texto(
+                "Nome da Categoria: "
+            ).strip().lower()
 
             categoria = self.categoria_service.buscar_por_nome(
                 nome_categoria
@@ -42,7 +60,7 @@ class SaidaController:
             if categoria:
                 break
 
-            print("Categoria não encontrada.")
+            erro("Categoria não encontrada.")
 
         self.saida_service.adicionar(
             nome,
@@ -52,30 +70,60 @@ class SaidaController:
             descricao
         )
 
-        print("Saída cadastrada com sucesso!")
+        sucesso(
+            f'Saída "{nome}" cadastrada com sucesso!'
+        )
 
     def listar(self):
+        titulo("LISTA DE SAÍDAS")
+
         saidas = self.saida_service.listar()
 
         if not saidas:
-            print("Nenhuma saída cadastrada.")
+            erro("Nenhuma saída cadastrada.")
             return
 
+        linhas = []
+
         for saida in saidas:
-            print(
+            categoria = self.categoria_service.buscar_por_id(
+                saida.categoria_id
+            )
+
+            nome_categoria = (
+                categoria.nome
+                if categoria
+                else "Não encontrada"
+            )
+
+            linhas.append([
                 saida.id,
                 saida.data,
                 saida.nome,
-                saida.valor,
-                saida.categoria_id,
+                f"R$ {saida.valor:.2f}",
+                nome_categoria,
                 saida.descricao
-            )
+            ])
+
+        tabela(
+            [
+                "ID",
+                "Data",
+                "Nome",
+                "Valor",
+                "Categoria",
+                "Descrição"
+            ],
+            linhas
+        )
 
     def update(self):
+        titulo("ALTERAR SAÍDA")
+
         saidas = self.saida_service.listar()
 
         if not saidas:
-            print("Nenhuma saída cadastrada.")
+            erro("Nenhuma saída cadastrada.")
             return
 
         self.listar()
@@ -89,7 +137,7 @@ class SaidaController:
         )
 
         if not saida:
-            print("Saída não encontrada.")
+            erro("Saída não encontrada.")
             return
 
         nome = ler_texto("Novo nome: ")
@@ -99,14 +147,23 @@ class SaidaController:
 
         categorias = self.categoria_service.listar()
 
-        print("\nCategorias disponíveis:")
+        linhas = []
 
         for categoria in categorias:
-            print(f"- {categoria.nome}")
+            linhas.append([
+                categoria.id,
+                categoria.nome
+            ])
+
+        tabela(
+            ["ID", "Categoria"],
+            linhas
+        )
 
         while True:
-
-            nome_categoria = ler_texto("Categoria: ")
+            nome_categoria = ler_texto(
+                "Categoria: "
+            ).strip().lower()
 
             categoria = self.categoria_service.buscar_por_nome(
                 nome_categoria
@@ -115,9 +172,9 @@ class SaidaController:
             if categoria:
                 break
 
-            print("Categoria não encontrada.")
+            erro("Categoria não encontrada.")
 
-        sucesso = self.saida_service.update(
+        atualizado = self.saida_service.update(
             id_saida,
             nome,
             valor,
@@ -126,16 +183,22 @@ class SaidaController:
             descricao
         )
 
-        if sucesso:
-            print("Saída atualizada com sucesso!")
+        if atualizado:
+            sucesso(
+                f'Saída "{nome}" atualizada com sucesso!'
+            )
         else:
-            print("Não foi possível atualizar a saída.")
+            erro(
+                "Não foi possível atualizar a saída."
+            )
 
     def remover(self):
+        titulo("REMOVER SAÍDA")
+
         saidas = self.saida_service.listar()
 
         if not saidas:
-            print("Nenhuma saída cadastrada.")
+            erro("Nenhuma saída cadastrada.")
             return
 
         self.listar()
@@ -144,9 +207,23 @@ class SaidaController:
             "\nDigite o ID da saída que deseja remover: "
         )
 
-        sucesso = self.saida_service.remover(id_saida)
+        saida = self.saida_service.buscar_por_id(
+            id_saida
+        )
 
-        if sucesso:
-            print("Saída removida com sucesso!")
+        if not saida:
+            erro("Saída não encontrada.")
+            return
+
+        removido = self.saida_service.remover(
+            id_saida
+        )
+
+        if removido:
+            sucesso(
+                f'Saída "{saida.nome}" removida com sucesso!'
+            )
         else:
-            print("Saída não encontrada.")
+            erro(
+                "Não foi possível remover a saída."
+            )

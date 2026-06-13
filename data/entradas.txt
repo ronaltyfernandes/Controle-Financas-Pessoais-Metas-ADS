@@ -1,7 +1,3 @@
-1;01/04/2026;salario;2500.0;salario abril
-2;15/04/2026;freelance;500.0;site cliente
-3;01/05/2026;salario;2500.0;salario maio
-4;10/05/2026;venda notebook;1800.0;equipamento usado
-5;01/06/2026;salario;2500.0;salario junho
-6;12/06/2026;freelance;750.0;sistema web
-7;25/06/2026;bonus;300.0;meta atingida
+1;20/05/2026;asdfas;300.0;fasdfas
+2;20/04/2026;asdf;300.0;fasdf
+3;20/05/2003;asfas;300.0;rqefasdf

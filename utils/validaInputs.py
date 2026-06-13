@@ -5,8 +5,7 @@ def ler_texto(mensagem):
     while True:
         valor = input(mensagem).strip()
 
-        if valor:
-            return valor
+        if valor:return valor
 
         print("Campo obrigatório.")
 
@@ -16,8 +15,7 @@ def ler_float(mensagem):
         try:
             valor = float(input(mensagem))
 
-            if valor > 0:
-                return valor
+            if valor > 0: return valor
 
             print("O valor deve ser maior que zero.")
 
@@ -30,8 +28,7 @@ def ler_int(mensagem):
         try:
             valor = int(input(mensagem))
 
-            if valor > 0:
-                return valor
+            if valor > 0:return valor
 
             print("O valor deve ser maior que zero.")
 

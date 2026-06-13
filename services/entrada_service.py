@@ -6,11 +6,9 @@ class EntradaService:
 
     def adicionar(self, nome, valor, data, descricao):
         entradas = self.listar()
-
         novo_id = 1
 
-        if entradas:
-            novo_id = max(e.id for e in entradas) + 1
+        if entradas: novo_id = max(e.id for e in entradas) + 1
 
         with open(self.ARQUIVO, "a", encoding="utf-8") as arquivo:
             arquivo.write(
@@ -32,22 +30,19 @@ class EntradaService:
         try:
             with open(self.ARQUIVO, "r", encoding="utf-8") as arquivo:
                 for linha in arquivo:
-                    id, data, nome, valor, descricao = (
-                        linha.strip().split(";")
-                    )
+                    id, data, nome, valor, descricao = (linha.strip().split(";"))
 
                     entradas.append(
                         Entrada(
-                            data,
                             int(id),
+                            data,
                             nome,
                             float(valor),
                             descricao
                         )
                     )
 
-        except FileNotFoundError:
-            pass
+        except FileNotFoundError: pass
 
         entradas.sort(key=lambda e: e.data)
 
@@ -63,14 +58,13 @@ class EntradaService:
     ):
 
         entradas = self.listar()
-
         entrada_encontrada = False
 
         with open(self.ARQUIVO, "w", encoding="utf-8") as arquivo:
 
             for entrada in entradas:
-
                 if entrada.id == id_entrada:
+                    entrada.id
                     entrada.data = nova_data
                     entrada.nome = novo_nome
                     entrada.valor = novo_valor
@@ -93,17 +87,15 @@ class EntradaService:
         entrada_encontrada = False
 
         with open(self.ARQUIVO, "w", encoding="utf-8") as arquivo:
-
             for entrada in entradas:
                 if entrada.id != id_entrada:
                     arquivo.write(
                         f"{entrada.id};"
+                        f"{entrada.data};"
                         f"{entrada.nome};"
                         f"{entrada.valor};"
-                        f"{entrada.data};"
                         f"{entrada.descricao}\n"
                     )
-
                 else: entrada_encontrada = True
 
         return entrada_encontrada

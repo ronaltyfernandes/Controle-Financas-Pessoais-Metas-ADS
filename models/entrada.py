@@ -1,5 +1,5 @@
 class Entrada:
-    def __init__(self, data, id, nome, valor, descricao):
+    def __init__(self, id, data, nome, valor, descricao):
         self.id = id
         self.data = data
         self.nome = nome

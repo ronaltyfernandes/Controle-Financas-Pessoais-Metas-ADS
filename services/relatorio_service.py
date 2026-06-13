@@ -55,7 +55,6 @@ class RelatorioService:
         return movimentacoes
 
     def gastos_por_categoria(self, mes, ano):
-
         categorias = self.categoria_service.listar()
         saidas = self.saida_service.listar()
 
@@ -165,8 +164,7 @@ class RelatorioService:
                 "%d/%m/%Y"
             )
 
-            if data.month == mes and data.year == ano:
-                total_saidas += saida.valor
+            if data.month == mes and data.year == ano: total_saidas += saida.valor
 
         return {
             "entradas": total_entradas,
@@ -186,8 +184,7 @@ class RelatorioService:
                 "%d/%m/%Y"
             )
 
-            if data.year == ano:
-                total_entradas += entrada.valor
+            if data.year == ano: total_entradas += entrada.valor
 
         saidas = self.saida_service.listar()
 
@@ -197,8 +194,7 @@ class RelatorioService:
                 "%d/%m/%Y"
             )
 
-            if data.year == ano:
-                total_saidas += saida.valor
+            if data.year == ano: total_saidas += saida.valor
 
         return {
             "ano": ano,

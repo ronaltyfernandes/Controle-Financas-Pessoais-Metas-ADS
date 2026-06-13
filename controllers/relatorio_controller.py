@@ -1,5 +1,11 @@
 from services.relatorio_service import RelatorioService
 from utils.validaInputs import ler_int
+from utils.interface import (
+    titulo,
+    erro,
+    sucesso,
+    tabela
+)
 
 
 class RelatorioController:
@@ -7,103 +13,226 @@ class RelatorioController:
         self.relatorio_service = RelatorioService()
 
     def entradas_mes(self):
-        mes = ler_int("Mês: ")
-        ano = ler_int("Ano: ")
-        entradas = self.relatorio_service.entradas_mes(mes, ano)
+        titulo("RELATÓRIO DE ENTRADAS")
 
-        if not entradas:
-            print("\nNenhuma entrada encontrada.")
-            return
-
-        print(f"\n=== ENTRADAS {mes:02d}/{ano} ===")
-
-        for entrada in entradas:
-            print(
-                f"{entrada['data']} | "
-                f"{entrada['nome']} | "
-                f"R$ {entrada['valor']:.2f}"
-            )
-
-    def saidas_mes(self):
         mes = ler_int("Mês: ")
         ano = ler_int("Ano: ")
 
-        saidas = self.relatorio_service.saidas_mes(mes, ano)
-
-        if not saidas:
-            print("\nNenhuma saída encontrada.")
-            return
-
-        print(
-            f"\n=== SAÍDAS {mes:02d}/{ano} ==="
+        entradas = self.relatorio_service.entradas_mes(
+            mes,
+            ano
         )
 
-        for saida in saidas:
-            print(f"{saida['data']} | {saida['nome']} | R$ {saida['valor']:.2f}")
+        if not entradas:
+            erro("Nenhuma entrada encontrada.")
+            return
 
-    def movimentacoes_mes(self):
+        linhas = []
+
+        for entrada in entradas:
+            linhas.append([
+                entrada["data"],
+                entrada["nome"],
+                f"R$ {entrada['valor']:.2f}"
+            ])
+
+        tabela(
+            ["Data", "Nome", "Valor"],
+            linhas
+        )
+    
+    def saidas_mes(self):
+        titulo("RELATÓRIO DE SAÍDAS")
+
         mes = ler_int("Mês: ")
         ano = ler_int("Ano: ")
 
-        movimentacoes = (self.relatorio_service.movimentacoes_mes(mes, ano))
+        saidas = self.relatorio_service.saidas_mes(
+            mes,
+            ano
+        )
+
+        if not saidas:
+            erro("Nenhuma saída encontrada.")
+            return
+
+        linhas = []
+
+        for saida in saidas:
+            linhas.append([
+                saida["data"],
+                saida["nome"],
+                f"R$ {saida['valor']:.2f}"
+            ])
+
+        tabela(
+            ["Data", "Nome", "Valor"],
+            linhas
+        )
+    
+    def saidas_mes(self):
+        titulo("RELATÓRIO DE SAÍDAS")
+
+        mes = ler_int("Mês: ")
+        ano = ler_int("Ano: ")
+
+        saidas = self.relatorio_service.saidas_mes(
+            mes,
+            ano
+        )
+
+        if not saidas:
+            erro("Nenhuma saída encontrada.")
+            return
+
+        linhas = []
+
+        for saida in saidas:
+            linhas.append([
+                saida["data"],
+                saida["nome"],
+                f"R$ {saida['valor']:.2f}"
+            ])
+
+        tabela(
+            ["Data", "Nome", "Valor"],
+            linhas
+        )
+        
+    def movimentacoes_mes(self):
+        titulo("MOVIMENTAÇÕES DO MÊS")
+
+        mes = ler_int("Mês: ")
+        ano = ler_int("Ano: ")
+
+        movimentacoes = self.relatorio_service.movimentacoes_mes(
+            mes,
+            ano
+        )
 
         if not movimentacoes:
-            print("\nNenhuma movimentação encontrada.")
+            erro("Nenhuma movimentação encontrada.")
             return
 
-        print(f"\n=== MOVIMENTAÇÕES {mes:02d}/{ano} ===")
+        linhas = []
 
         for mov in movimentacoes:
-            print(
-                f"{mov['data']} | "
-                f"{mov['tipo']} | "
-                f"{mov['nome']} | "
+            linhas.append([
+                mov["data"],
+                mov["tipo"],
+                mov["nome"],
                 f"R$ {mov['valor']:.2f}"
-            )
+            ])
 
+        tabela(
+            ["Data", "Tipo", "Nome", "Valor"],
+            linhas
+        )
+    
     def resumo_financeiro_mes(self):
+        titulo("RESUMO FINANCEIRO MENSAL")
+
         mes = ler_int("Mês: ")
         ano = ler_int("Ano: ")
 
-        resumo = (self.relatorio_service.resumo_financeiro_mes(mes, ano))
+        resumo = self.relatorio_service.resumo_financeiro_mes(
+            mes,
+            ano
+        )
 
-        print(f"\n=== RESUMO FINANCEIRO {mes:02d}/{ano} ===")
-        print(f"Total de Entradas: R$ {resumo['entradas']:.2f}")
-        print(f"Total de Saídas: R$ {resumo['saidas']:.2f}")
-        print(f"Saldo Final: R$ {resumo['saldo']:.2f}")
+        linhas = [
+            ["Entradas", f"R$ {resumo['entradas']:.2f}"],
+            ["Saídas", f"R$ {resumo['saidas']:.2f}"],
+            ["Saldo", f"R$ {resumo['saldo']:.2f}"]
+        ]
 
+        tabela(
+            ["Indicador", "Valor"],
+            linhas
+        )
+    
     def gastos_por_categoria(self):
+        titulo("GASTOS POR CATEGORIA")
+
         mes = ler_int("Mês: ")
         ano = ler_int("Ano: ")
-        gastos = (self.relatorio_service.gastos_por_categoria(mes, ano))
+
+        gastos = self.relatorio_service.gastos_por_categoria(
+            mes,
+            ano
+        )
 
         if not gastos:
-            print("\nNenhum dado encontrado.")
+            erro("Nenhum dado encontrado.")
             return
 
-        print(f"\n=== GASTOS POR CATEGORIA {mes:02d}/{ano} ===")
+        linhas = []
 
         for item in gastos:
-            print(f"\nCategoria: {item['categoria']}")
-            print(f"Gasto: R$ {item['gasto']:.2f}")
-            print(f"Teto: R$ {item['teto']:.2f}")
+            status = (
+                "EXCEDIDO"
+                if item["estourou"]
+                else "OK"
+            )
 
+            linhas.append([
+                item["categoria"],
+                f"R$ {item['gasto']:.2f}",
+                f"R$ {item['teto']:.2f}",
+                status
+            ])
+
+        tabela(
+            [
+                "Categoria",
+                "Gasto",
+                "Teto",
+                "Status"
+            ],
+            linhas
+        )
+
+        for item in gastos:
             if item["estourou"]:
                 excesso = (
                     item["gasto"]
                     - item["teto"]
                 )
-                print(f"⚠ ALERTA: teto excedido em R$ {excesso:.2f}")
 
+                erro(
+                    f'{item["categoria"]}: teto excedido em '
+                    f'R$ {excesso:.2f}'
+                )
+    
     def resumo_financeiro_ano(self):
+        titulo("RESUMO FINANCEIRO ANUAL")
+
         ano = ler_int("Ano: ")
-        resumo = (self.relatorio_service.resumo_financeiro_ano(ano))
 
-        print(f"\n=== RESUMO FINANCEIRO {ano} ===")
-        print(f"Total de Entradas: R$ {resumo['entradas']:.2f}")
-        print(f"Total de Saídas: R$ {resumo['saidas']:.2f}")
-        print(f"Saldo Final: R$ {resumo['saldo']:.2f}")
+        resumo = self.relatorio_service.resumo_financeiro_ano(
+            ano
+        )
 
-        if resumo["saldo"] > 0: print("Situação: Superávit")
-        elif resumo["saldo"] < 0: print("Situação: Déficit")
-        else: print("Situação: Equilíbrio")
+        if resumo["saldo"] > 0:
+            situacao = "SUPERÁVIT"
+        elif resumo["saldo"] < 0:
+            situacao = "DÉFICIT"
+        else:
+            situacao = "EQUILÍBRIO"
+
+        linhas = [
+            ["Entradas", f"R$ {resumo['entradas']:.2f}"],
+            ["Saídas", f"R$ {resumo['saidas']:.2f}"],
+            ["Saldo", f"R$ {resumo['saldo']:.2f}"],
+            ["Situação", situacao]
+        ]
+
+        tabela(
+            ["Indicador", "Valor"],
+            linhas
+        )
+
+        if situacao == "SUPERÁVIT":
+            sucesso("Situação financeira positiva.")
+        elif situacao == "DÉFICIT":
+            erro("Situação financeira negativa.")
