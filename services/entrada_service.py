@@ -1,41 +1,54 @@
 from models.entrada import Entrada
 
+
 class EntradaService:
+    ARQUIVO = "data/entradas.txt"
 
-    ARQUIVO = "data/entradas.txt" 
-
-    def adicionar(self, nome, valor, categoria_id, data, descricao):
-        print("print self:")
-
+    def adicionar(self, nome, valor, data, descricao):
         entradas = self.listar()
 
         novo_id = 1
 
         if entradas:
-            novo_id = max(c.id for c in entradas) + 1
+            novo_id = max(e.id for e in entradas) + 1
 
         with open(self.ARQUIVO, "a", encoding="utf-8") as arquivo:
-            arquivo.write(f"{novo_id};{nome};{valor};{categoria_id};{data};{descricao}\n")
+            arquivo.write(
+                f"{novo_id};{data};{nome};{valor};{descricao}\n"
+            )
+
+        return True
+
+
+    def buscar_por_id(self, id_entrada):
+
+        for entrada in self.listar():
+
+            if entrada.id == id_entrada:
+                return entrada
+
+        return None
 
 
     def listar(self):
-
         entradas = []
 
         try:
+
             with open(self.ARQUIVO, "r", encoding="utf-8") as arquivo:
 
                 for linha in arquivo:
 
-                    id, nome, valor, categoria_id, data, descricao = linha.strip().split(";")
+                    id, data, nome, valor, descricao = (
+                        linha.strip().split(";")
+                    )
 
                     entradas.append(
                         Entrada(
                             int(id),
+                            data,
                             nome,
                             float(valor),
-                            int(categoria_id),
-                            data,
                             descricao
                         )
                     )
@@ -43,14 +56,53 @@ class EntradaService:
         except FileNotFoundError:
             pass
 
-        entradas.sort(key=lambda c: c.nome)
+        entradas.sort(key=lambda e: e.data)
 
         return entradas
+
+
+    def update(
+        self,
+        id_entrada,
+        novo_nome,
+        novo_valor,
+        nova_data,
+        nova_descricao
+    ):
+
+        entradas = self.listar()
+
+        entrada_encontrada = False
+
+        with open(self.ARQUIVO, "w", encoding="utf-8") as arquivo:
+
+            for entrada in entradas:
+
+                if entrada.id == id_entrada:
+
+                    entrada.nome = novo_nome
+                    entrada.valor = novo_valor
+                    entrada.data = nova_data
+                    entrada.descricao = nova_descricao
+
+                    entrada_encontrada = True
+
+                arquivo.write(
+                    f"{entrada.id};"
+                    f"{entrada.data};"
+                    f"{entrada.nome};"
+                    f"{entrada.valor};"
+                    f"{entrada.descricao}\n"
+                )
+
+        return entrada_encontrada
 
 
     def remover(self, id_entrada):
 
         entradas = self.listar()
+
+        entrada_encontrada = False
 
         with open(self.ARQUIVO, "w", encoding="utf-8") as arquivo:
 
@@ -59,36 +111,14 @@ class EntradaService:
                 if entrada.id != id_entrada:
 
                     arquivo.write(
-                        f"{entrada.id};{entrada.nome};{entrada.valor};{entrada.categoria_id};{entrada.data};{entrada.descricao}\n"
+                        f"{entrada.id};"
+                        f"{entrada.nome};"
+                        f"{entrada.valor};"
+                        f"{entrada.data};"
+                        f"{entrada.descricao}\n"
                     )
 
+                else:
+                    entrada_encontrada = True
 
-    def calcular_gastos(self):
-
-        entradas = self.listar()
-
-        resultado = {}
-
-        for entrada in entradas:
-            resultado[entrada.nome] = 0
-
-        try:
-
-            with open("data/saidas.txt", "r", encoding="utf-8") as arquivo:
-
-                for linha in arquivo:
-
-                    id_saida, data, descricao, valor, entrada_id = linha.strip().split(";")
-
-                    entrada_id = int(entrada_id)
-                    id_saida = int(id_saida)
-
-                    for entrada in entradas:
-
-                        if entrada.id == entrada_id:
-                            resultado[entrada.nome] += float(valor)
-
-        except FileNotFoundError:
-            pass
-
-        return resultado
+        return entrada_encontrada
