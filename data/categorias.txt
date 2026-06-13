@@ -1,7 +1,12 @@
+1;Alimentação;800.0
+2;Transporte;400.0
+3;Moradia;1500.0
+4;Lazer;300.0
+5;Saúde;500.0
+6;Educação;600.0
 7;a;400.0
-12;asdf;300.0
-1;asdfa;300.0
-14;fasdf;300.0
-11;fasdfa;400.0
 9;no;2.0
+11;fasdfa;400.0
+12;asdf;300.0
 13;teste d;300.0
+14;fasdf;300.0

@@ -1,2 +1,15 @@
 1;20/03/2026;TESTE DE POS;300.0;13;fasldfk
 2;20/04/2026;asdf;300.0;9;fasdf
+3;05/05/2026;Supermercado;450.0;1;Compras do mês
+4;10/05/2026;Combustível;200.0;2;Abastecimento
+5;15/05/2026;Aluguel;1200.0;3;Apartamento
+6;18/05/2026;Cinema;80.0;4;Lazer
+7;02/06/2026;Farmácia;150.0;5;Medicamentos
+8;08/06/2026;Curso Python;250.0;6;Curso online
+9;12/06/2026;Mercado;600.0;1;Compras extras
+10;14/06/2026;Uber;70.0;2;Viagens
+11;20/06/2026;Restaurante;120.0;4;Jantar
+12;22/06/2026;Material Curso;350.0;6;Livros
+13;25/06/2026;Consulta;300.0;5;Médico
+14;28/06/2026;Mercado;500.0;1;Compras finais
+15;30/06/2026;Aluguel;1200.0;3;Apartamento
