@@ -1,5 +1,5 @@
 class Saida:
-    def __init__(self, id, nome, valor, categoria_id, data, descricao):
+    def __init__(self, id, data, nome, valor, categoria_id, descricao):
         self.id = id
         self.data = data
         self.nome = nome
@@ -7,6 +7,5 @@ class Saida:
         self.descricao = descricao
         self.categoria_id = categoria_id
 
-
     def __str__(self):
-        return f'{self.id}: {self.data} - {self.nome}, {self.valor}, {self.categoria_id}, {self.descricao}'
+        return f'{self.id}: {self.data}, {self.nome}, R$ {self.valor}, {self.categoria_id}, {self.descricao}'

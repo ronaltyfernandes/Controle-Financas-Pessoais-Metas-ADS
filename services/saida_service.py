@@ -2,13 +2,10 @@ from models.saida import Saida
 
 
 class SaidaService:
-
     ARQUIVO = "data/saidas.txt"
 
     def adicionar(self, nome, valor, categoria_id, data, descricao):
-
         saidas = self.listar()
-
         novo_id = 1
 
         if saidas:
@@ -21,27 +18,19 @@ class SaidaService:
 
         return True
 
-
     def buscar_por_id(self, id_saida):
-
         for saida in self.listar():
-
             if saida.id == id_saida:
                 return saida
 
         return None
 
-
     def listar(self):
-
         saidas = []
 
         try:
-
             with open(self.ARQUIVO, "r", encoding="utf-8") as arquivo:
-
                 for linha in arquivo:
-
                     id, data, nome, valor, categoria_id, descricao = (
                         linha.strip().split(";")
                     )
@@ -64,7 +53,6 @@ class SaidaService:
 
         return saidas
 
-
     def update(
         self,
         id_saida,
@@ -76,19 +64,15 @@ class SaidaService:
     ):
 
         saidas = self.listar()
-
         saida_encontrada = False
 
         with open(self.ARQUIVO, "w", encoding="utf-8") as arquivo:
-
             for saida in saidas:
-
                 if saida.id == id_saida:
-
+                    saida.data = nova_data
                     saida.nome = novo_nome
                     saida.valor = novo_valor
                     saida.categoria_id = nova_categoria_id
-                    saida.data = nova_data
                     saida.descricao = nova_descricao
 
                     saida_encontrada = True
@@ -104,19 +88,13 @@ class SaidaService:
 
         return saida_encontrada
 
-
     def remover(self, id_saida):
-
         saidas = self.listar()
-
         saida_encontrada = False
 
         with open(self.ARQUIVO, "w", encoding="utf-8") as arquivo:
-
             for saida in saidas:
-
                 if saida.id != id_saida:
-
                     arquivo.write(
                         f"{saida.id};"
                         f"{saida.data};"
@@ -125,7 +103,6 @@ class SaidaService:
                         f"{saida.categoria_id};"
                         f"{saida.descricao}\n"
                     )
-
                 else:
                     saida_encontrada = True
 

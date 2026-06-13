@@ -1,7 +1,8 @@
 from models.categoria import Categoria
 
+
 class CategoriaService:
-    ARQUIVO = "data/categorias.txt" 
+    ARQUIVO = "data/categorias.txt"
 
     def adicionar(self, nome, teto):
         categoria_existente = self.buscar_por_nome(nome)
@@ -16,7 +17,6 @@ class CategoriaService:
 
         return True
 
-
     def buscar_por_id(self, id_categoria):
         for categoria in self.listar():
 
@@ -25,14 +25,12 @@ class CategoriaService:
 
         return None
 
-
     def buscar_por_nome(self, nome):
 
         for categoria in self.listar():
             if categoria.nome.lower() == nome.lower(): return categoria
 
         return None
-
 
     def listar(self):
         categorias = []
@@ -55,9 +53,7 @@ class CategoriaService:
 
         return categorias
 
-
     def update(self, id_categoria, novo_nome, novo_teto):
-
         categorias = self.listar()
 
         categoria_encontrada = False
@@ -86,7 +82,6 @@ class CategoriaService:
 
         return categoria_encontrada
 
-
     def remover(self, id_categoria):
         categorias = self.listar()
 
@@ -104,4 +99,3 @@ class CategoriaService:
                     categoria_encontrada = True
 
         return categoria_encontrada
-

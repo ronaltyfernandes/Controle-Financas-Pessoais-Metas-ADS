@@ -1,11 +1,10 @@
 class Entrada:
-    def __init__(self, id, nome, valor, data, descricao):
+    def __init__(self, data, id, nome, valor, descricao):
         self.id = id
         self.data = data
         self.nome = nome
         self.valor = valor
         self.descricao = descricao
 
-
     def __str__(self):
-        return f'{self.id}: {self.data} - {self.nome}, {self.valor}, {self.descricao}'
+        return f'{self.id}: {self.data}; {self.nome}, R$ {self.valor:.2f}, {self.descricao}'

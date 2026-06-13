@@ -1,16 +1,12 @@
 from services.entrada_service import EntradaService
 from utils.validaInputs import (
-    ler_texto,
-    ler_float,
-    ler_data,
-    ler_int
+    ler_texto, ler_float, ler_data, ler_int
 )
 
 
 class EntradaController:
     def __init__(self):
         self.entrada_service = EntradaService()
-
 
     def adicionar_entrada(self):
         nome = ler_texto("Nome: ")
@@ -26,7 +22,6 @@ class EntradaController:
         )
 
         print("Entrada cadastrada com sucesso!")
-
 
     def listar(self):
 
@@ -45,9 +40,7 @@ class EntradaController:
                 entrada.descricao
             )
 
-
     def update(self):
-
         entradas = self.entrada_service.listar()
 
         if not entradas:
@@ -73,7 +66,6 @@ class EntradaController:
         valor = ler_float("Novo valor: ")
         data = ler_data("Nova data: ")
 
-
         sucesso = self.entrada_service.update(
             id_entrada,
             nome,
@@ -86,7 +78,6 @@ class EntradaController:
             print("Entrada atualizada com sucesso!")
         else:
             print("Não foi possível atualizar a entrada.")
-
 
     def remover(self):
         entradas = self.entrada_service.listar()

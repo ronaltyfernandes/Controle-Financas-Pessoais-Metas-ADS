@@ -1,10 +1,13 @@
 from controllers.categoria_controller import CategoriaController
 from controllers.entrada_controller import EntradaController
 from controllers.saida_controller import SaidaController
+from controllers.relatorio_controller import RelatorioController
 
 categoria_controller = CategoriaController()
 entrada_controller = EntradaController()
 saida_controller = SaidaController()
+relatorio_controller = RelatorioController()
+
 
 def menu_categorias():
     while True:
@@ -66,17 +69,26 @@ def menu_saidas():
 def menu_relatorios():
     while True:
         print("\n=== RELATÓRIOS ===")
-        print("1 - Gastos por categoria")
-        print("2 - Verificar estouro de teto")
+        print("1 - Entradas do mês")
+        print("2 - Saídas do mês")
+        print("3 - Movimentações completas")
+        print("4 - Resumo financeiro")
+        print("5 - Gastos por categoria")
+        print("6 - Resumo financeiro anual")
         print("0 - Voltar")
 
         opcao = input("Escolha uma opção: ")
 
-        if opcao == "1": categoria_controller.calcular_gastos()
-        elif opcao == "2": categoria_controller.verificar_tetos()
+        if opcao == "1": relatorio_controller.entradas_mes()
+        elif opcao == "2": relatorio_controller.saidas_mes()
+        elif opcao == "3": relatorio_controller.movimentacoes_mes()
+        elif opcao == "4": relatorio_controller.resumo_financeiro_mes()
+        elif opcao == "5": relatorio_controller.gastos_por_categoria()
+        elif opcao == "6": relatorio_controller.resumo_financeiro_ano()
         elif opcao == "0": break
-        else: print("Opção inválida.")
 
+        else:
+            print("Opção inválida.")
 
 while True:
     print("\n=== CONTROLE FINANCEIRO ===")

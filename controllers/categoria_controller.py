@@ -87,37 +87,3 @@ class CategoriaController:
         self.categoria_service.remover(id_categoria)
 
         print("Categoria removida com sucesso!")
-
-    # def calcular_gastos(self):
-
-    #     gastos = self.categoria_service.calcular_gastos()
-
-    #     if not gastos:
-    #         print("Nenhum gasto encontrado.")
-    #         return
-
-    #     print("\n=== GASTOS POR CATEGORIA ===")
-
-    #     for nome, valor in gastos.items():
-    #         print(f"{nome}: R$ {valor:.2f}")
-
-    #     categorias = self.categoria_service.listar()
-        # gastos = self.categoria_service.calcular_gastos()
-
-        # print("\n=== VERIFICAÇÃO DE TETOS ===")
-
-        # for categoria in categorias:
-
-        #     gasto = gastos.get(categoria.nome, 0)
-
-        #     print(
-        #         f"{categoria.nome}: "
-        #         f"R$ {gasto:.2f} / "
-        #         f"R$ {categoria.teto:.2f}"
-        #     )
-
-        #     if gasto > categoria.teto:
-        #         print(
-        #             f"⚠ ALERTA: teto excedido em "
-        #             f"R$ {(gasto - categoria.teto):.2f}"
-        #         )

@@ -9,13 +9,11 @@ from utils.validaInputs import (
 
 
 class SaidaController:
-
     def __init__(self):
         self.saida_service = SaidaService()
         self.categoria_service = CategoriaService()
 
     def adicionar_saida(self):
-
         categorias = self.categoria_service.listar()
 
         if not categorias:
@@ -57,7 +55,6 @@ class SaidaController:
         print("Saída cadastrada com sucesso!")
 
     def listar(self):
-
         saidas = self.saida_service.listar()
 
         if not saidas:
@@ -67,15 +64,14 @@ class SaidaController:
         for saida in saidas:
             print(
                 saida.id,
+                saida.data,
                 saida.nome,
                 saida.valor,
                 saida.categoria_id,
-                saida.data,
                 saida.descricao
             )
 
     def update(self):
-
         saidas = self.saida_service.listar()
 
         if not saidas:
@@ -136,7 +132,6 @@ class SaidaController:
             print("Não foi possível atualizar a saída.")
 
     def remover(self):
-
         saidas = self.saida_service.listar()
 
         if not saidas:
