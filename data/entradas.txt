@@ -1,10 +1,11 @@
-1;20/05/2026;Salário;3500.0;Salário mensal
+9;01/01/2026;Investimento;250.0;Dividendos
+11;04/03/2003;tesfsf;500.0;roasldkfa
+12;04/03/2003;faslkjfdas novo;400.0;foasjfas
 2;05/05/2026;Freelance;800.0;Projeto React
-3;15/04/2026;Venda;500.0;Venda de monitor
 4;10/06/2026;Salário;3500.0;Salário mensal
+3;15/04/2026;Venda;500.0;Venda de monitor
 5;18/06/2026;Freelance;1200.0;Sistema financeiro
-6;20/05/2026;asdfas;300.0;fasdfas
 7;20/04/2026;asdf;300.0;fasdf
 8;20/05/2003;asfas;300.0;rqefasdf
-9;01/01/2026;Investimento;250.0;Dividendos
-10;25/03/2026;Bônus;1000.0;Meta atingida
+1;20/05/2026;Salário;3500.0;Salário mensal
+6;20/05/2026;asdfas;300.0;fasdfas
