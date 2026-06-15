@@ -13,3 +13,4 @@
 13;25/06/2026;Consulta;300.0;5;Médico
 14;28/06/2026;Mercado;500.0;1;Compras finais
 15;30/06/2026;Aluguel;1200.0;3;Apartamento
+16;04/05/2026;tteste de passar teto;30000.0;7;faslkdsf
